@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#245849">
+  <meta name="description" content="见微：商品评论排序实验。观察可见位置、停留与模拟购买结果如何更新评论评分，比较三种位置权重。">
+  <title>见微 · 评论排序研究台</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script src="/sample-data.js" defer></script>
+  <script src="/demo-engine.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body data-screen="product" data-theme="forest" data-color-mode="light" data-runtime="browser">
+  <header class="site-header">
+    <a class="brand" href="#product" aria-label="见微研究台，返回商品"><strong>见微</strong><span>评论排序研究台</span></a>
+    <div class="header-right">
+      <button id="about-open" class="environment-badge" aria-haspopup="dialog">体验说明 <span aria-hidden="true">ⓘ</span></button>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切换到深色模式" aria-pressed="false" title="切换到深色模式"><span class="theme-toggle-icon" aria-hidden="true">☾</span><span class="theme-toggle-label">深色</span></button>
+      <div class="viewer-profile" aria-label="当前访客"><span id="viewer-avatar" class="viewer-avatar">访</span><div><strong id="viewer-name">正在连接</strong><span id="viewer-ordinal">当前访客</span></div></div>
+    </div>
+  </header>
+  <div id="notice" class="notice" role="status" aria-live="polite" hidden><p id="notice-text"></p><button id="retry-action" hidden>重试</button><button id="dismiss-notice" aria-label="关闭提示" hidden>×</button></div>
+
+  <div class="workspace">
+    <div class="client-column">
+      <div id="phone-shell" class="phone-shell" aria-label="手机客户端预览">
+        <div class="phone-hardware" aria-hidden="true"><span class="phone-speaker"></span></div>
+        <div id="phone-screen" class="phone-screen">
+          <div class="phone-status" aria-hidden="true"><span class="phone-time">--:--</span><span class="phone-signals"><i></i><b></b></span></div>
+          <main id="product-screen" class="product-screen">
+            <header class="product-intro"><span class="shop-name">轻旅</span><h1>商品详情</h1><span class="product-nav-label">日常系列</span></header>
+            <details id="last-result" class="last-result" hidden>
+              <summary><span class="result-check" aria-hidden="true">✓</span><span id="last-result-title">上一位访客的阅读已计入排序</span><span class="result-expand" aria-hidden="true">⌄</span></summary>
+              <div id="last-result-body" class="last-result-body"></div>
+            </details>
+            <section class="product-detail" aria-labelledby="product-title">
+              <div class="product-art">
+<svg class="product-visual" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 390" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="bag-visual-title">
+  <title id="bag-visual-title">雾苔绿日常双肩包，20升容量，带前置拉链袋和两侧收纳袋</title>
+  <defs>
+    <linearGradient id="bag-visual-body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#87917b"/><stop offset=".47" stop-color="#75826a"/><stop offset="1" stop-color="#58674f"/>
+    </linearGradient>
+    <linearGradient id="bag-visual-side" x1="0" y1="0" x2="1" y2=".25">
+      <stop stop-color="#607052"/><stop offset="1" stop-color="#414e3b"/>
+    </linearGradient>
+    <linearGradient id="bag-visual-pocket" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#859178"/><stop offset=".18" stop-color="#78866b"/><stop offset="1" stop-color="#69795b"/>
+    </linearGradient>
+    <linearGradient id="bag-visual-top" x1="0" y1="0" x2=".2" y2="1">
+      <stop stop-color="#9aa18a"/><stop offset="1" stop-color="#758169"/>
+    </linearGradient>
+    <linearGradient id="bag-visual-webbing" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#3e4937"/><stop offset=".48" stop-color="#606b50"/><stop offset="1" stop-color="#404b39"/>
+    </linearGradient>
+    <pattern id="bag-visual-weave" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M0 .5H4M.5 0V4" fill="none" stroke="#d5ddc9" stroke-width=".4" opacity=".19"/>
+      <path d="M0 2.5H4M2.5 0V4" fill="none" stroke="#273520" stroke-width=".3" opacity=".15"/>
+    </pattern>
+    <clipPath id="bag-visual-front-clip"><path d="M206 123C212 86 238 69 283 68L311 69C342 72 361 94 366 122L370 287C371 314 360 329 333 334L229 338C202 336 187 325 187 302L192 178Z"/></clipPath>
+  </defs>
+  <path fill="#eeefe9" d="M0 0H600V390H0Z"/>
+  <!-- Ground contact, without a blur filter or floating halo. -->
+  <ellipse cx="297" cy="342" rx="126" ry="11" fill="#293326" opacity=".045"/>
+  <ellipse cx="293" cy="341" rx="104" ry="7" fill="#293326" opacity=".075"/>
+  <ellipse cx="291" cy="339" rx="79" ry="4" fill="#293326" opacity=".11"/>
+  <!-- Shoulder straps sit behind the loaded body. -->
+  <path d="M252 94C218 94 187 136 173 191C165 222 164 269 176 294L193 298C182 265 185 218 194 190C210 143 230 125 254 120Z" fill="#475440"/>
+  <path d="M249 104C220 106 196 145 183 190C176 222 175 265 182 286" fill="none" stroke="#6b775d" stroke-width="9"/>
+  <path d="M181 290L175 318L183 321L195 291" fill="url(#bag-visual-webbing)"/>
+  <path d="M337 102C371 105 395 143 407 197C416 243 410 280 391 307L376 292C394 259 395 231 387 198C378 156 361 133 336 124Z" fill="#3d4b37"/>
+  <path d="M341 111C370 120 387 150 398 198C406 236 400 272 386 293" fill="none" stroke="#657355" stroke-width="8"/>
+  <path d="M390 299L396 324L387 326L375 298" fill="url(#bag-visual-webbing)"/>
+  <!-- Woven carry handle and its reinforced feet. -->
+  <path d="M271 83L272 60C273 40 315 37 324 57L329 81L315 82L312 61C309 52 287 53 286 63L286 83Z" fill="#4e5a42"/>
+  <path d="M280 79L279 63C279 47 314 44 318 61L322 79" fill="none" stroke="#7e896b" stroke-width="2"/>
+  <path d="M269 77L287 76L289 101L271 102ZM312 76L331 78L334 102L315 99Z" fill="#515e45"/>
+  <!-- Narrow right gusset gives the bag a restrained three-quarter view. -->
+  <path d="M304 68C352 62 382 88 389 123L401 281C404 306 390 322 364 328L328 335L353 302L355 128Z" fill="url(#bag-visual-side)"/>
+  <path d="M309 72C350 69 376 88 381 123L393 279C396 302 385 315 365 321" fill="none" stroke="#879077" stroke-width="1.1" opacity=".67"/>
+  <path d="M381 174L396 170L402 277C403 294 394 306 374 311L372 268Z" fill="#48573d"/>
+  <path d="M376 217C384 213 392 211 399 210L401 275C402 288 394 297 380 301L376 288Z" fill="#667755"/>
+  <path d="M378 222L399 216" fill="none" stroke="#a1aa8b" stroke-width="1.1"/>
+  <path d="M380 227L399 222M381 235L400 230M382 243L400 238M383 251L401 246M383 259L401 254M383 267L401 262M383 275L400 270M383 283L397 278" fill="none" stroke="#34452b" stroke-width="1" opacity=".26"/>
+  <!-- Main fabric shell. -->
+  <path d="M206 123C212 86 238 69 283 68L311 69C342 72 361 94 366 122L370 287C371 314 360 329 333 334L229 338C202 336 187 325 187 302L192 178Z" fill="url(#bag-visual-body)"/>
+  <path d="M207 123C214 89 239 75 284 74L308 75C337 78 354 94 360 123L365 285C366 311 354 324 332 328L231 332C206 331 194 321 193 302L197 178Z" fill="none" stroke="#a4ad95" stroke-width="1" opacity=".59"/>
+  <path d="M195 306C234 320 319 318 367 297C366 320 352 331 333 334L229 338C205 336 191 327 189 312Z" fill="#4c5e41" opacity=".34"/>
+  <path d="M210 120C216 86 246 75 281 75L306 76C332 79 350 94 357 117C316 106 253 107 210 120Z" fill="url(#bag-visual-top)"/>
+  <!-- Zip follows the crown, with two fine teeth rows. -->
+  <path d="M201 177L210 128C214 92 240 81 281 80L305 81C334 85 350 103 354 130L362 192" fill="none" stroke="#4a5740" stroke-width="4"/>
+  <path d="M201 177L210 128C214 92 240 81 281 80L305 81C334 85 350 103 354 130L362 192" fill="none" stroke="#c1c6b4" stroke-width="1.2" stroke-dasharray="1.4 1.9" opacity=".78"/>
+  <path d="M213 132C242 120 316 121 353 133" fill="none" stroke="#a3ac92" stroke-width="1" opacity=".62"/>
+  <!-- Front pocket has a slight filled bulge and bound corners. -->
+  <path d="M209 205C251 192 314 191 346 200L351 281C352 299 345 308 328 313L235 319C216 318 206 311 205 294Z" fill="#3f5135" opacity=".18"/>
+  <path d="M211 201C254 192 310 190 344 198L347 277C348 296 342 306 325 310L235 315C218 315 209 308 208 292Z" fill="url(#bag-visual-pocket)"/>
+  <path d="M214 206C254 198 308 196 340 202L343 278C344 294 338 302 324 306L237 311C221 311 213 304 212 291Z" fill="none" stroke="#abb299" stroke-width=".9" opacity=".56"/>
+  <path d="M214 216C253 208 306 206 341 211" fill="none" stroke="#45563c" stroke-width="3.7"/>
+  <path d="M214 216C253 208 306 206 341 211" fill="none" stroke="#c4c8b6" stroke-width="1.1" stroke-dasharray="1.25 1.7" opacity=".83"/>
+  <path d="M218 222C248 217 293 213 327 216" fill="none" stroke="#96a184" stroke-width="1" opacity=".62"/>
+  <path d="M216 290C218 300 224 305 238 306M327 300C337 295 338 285 337 276" fill="none" stroke="#536748" stroke-width="1.2" opacity=".65"/>
+  <!-- Unbranded canvas patch, bar-tack stitching and restrained folds. -->
+  <path d="M270 155L302 153L303 174L271 176Z" fill="#b6b7a0"/>
+  <path d="M273 158L299 156L300 171L274 173Z" fill="none" stroke="#797f67" stroke-width=".75" stroke-dasharray="1.4 1.5"/>
+  <path d="M204 185L208 181M343 190L347 186M217 229L221 228M332 223L337 223" fill="none" stroke="#d2d4bc" stroke-width="1.7" opacity=".61"/>
+  <path d="M203 236L199 285M222 134C218 151 218 168 220 180M345 142L348 179M232 319L232 327" fill="none" stroke="#435738" stroke-width="1.15" opacity=".22"/>
+  <!-- Fabric weave is clipped to the front, never tied to visitor theme colors. -->
+  <path d="M179 65H374V342H179Z" fill="url(#bag-visual-weave)" clip-path="url(#bag-visual-front-clip)"/>
+  <!-- Small metal zipper sliders and dark cord pulls. -->
+  <path d="M357 177L365 176L367 188L359 189Z" fill="#b6b9a7" stroke="#55604b" stroke-width=".8"/>
+  <path d="M362 187L365 205" fill="none" stroke="#33432d" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M363 198L368 197L370 207L365 209Z" fill="#46543a"/>
+  <path d="M322 206L331 205L332 214L323 215Z" fill="#bec1ae" stroke="#58634d" stroke-width=".8"/>
+  <path d="M329 212L333 230" fill="none" stroke="#37492f" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M330 225L336 224L338 233L332 235Z" fill="#475c3b"/>
+  <path d="M190 291L198 293L195 308L186 305Z" fill="none" stroke="#303c2c" stroke-width="3"/>
+  <path d="M385 293L394 291L398 304L388 307Z" fill="none" stroke="#303c2c" stroke-width="3"/>
+</svg>
+              </div>
+              <div class="product-copy">
+                <div class="product-price"><span class="currency">¥</span>269<span>.00</span></div>
+                <h2 id="product-title">轻旅 · 日常双肩包</h2>
+                <p class="product-description">20 L 容量，适用于日常通勤与短途出行。</p>
+                <dl class="specs"><div><dt>配色</dt><dd><i class="color-swatch"></i>雾苔绿</dd></div><div><dt>容量</dt><dd>20 L</dd></div><div><dt>系列</dt><dd>日常通勤</dd></div></dl>
+              </div>
+            </section>
+            <div class="product-action">
+              <div class="review-entry-info"><strong>用户评论 <span id="product-review-count">—</span></strong><span>查看使用体验与评价</span></div>
+              <button id="enter-reviews" class="primary-button" disabled><span>查看全部评论</span><span aria-hidden="true">→</span></button>
+            </div>
+          </main>
+
+          <main id="reviews-screen" class="reviews-screen" hidden>
+            <header class="review-page-header">
+              <button id="back-product" class="back-button"><span aria-hidden="true">‹</span> 返回</button>
+              <div class="review-product-summary"><strong>轻旅 · 日常双肩包</strong></div>
+              <div class="review-header-actions"><span id="reading-status" class="reading-status">正在准备</span><button id="toggle-research" class="outline-button" aria-expanded="false" aria-controls="research-panel">研究台 <span aria-hidden="true">↗</span></button></div>
+            </header>
+            <div class="reading-layout">
+              <section class="comment-panel" aria-labelledby="comments-title">
+                <div class="comment-heading"><h1 id="comments-title" tabindex="-1">用户评论 <span id="review-count">—</span></h1><span class="weight-heading">权重 / 8</span></div>
+                <div class="review-controls">
+                  <div class="filter-group" role="group" aria-label="按评价筛选"><button class="filter active" data-filter="all" aria-pressed="true">全部</button><button class="filter" data-filter="positive" aria-pressed="false">正面</button><button class="filter" data-filter="neutral" aria-pressed="false">中性</button><button class="filter" data-filter="negative" aria-pressed="false">负面</button></div>
+                  <label class="sort-label"><span class="sr-only">评论排序</span><select id="sort"><option value="recommended">推荐排序</option><option value="recent">最新发布</option></select></label>
+                </div>
+                <div class="review-stage"><div id="review-viewport" class="review-viewport" tabindex="0" role="region" aria-label="商品评论，每屏八条，可上下滚动"><div id="reviews" class="reviews"></div></div><div id="weight-ruler" class="weight-ruler" aria-label="当前八行位置权重"></div></div>
+                <div class="review-footer"><span id="feed-caption">点按评论查看全文</span><div class="pagination"><button id="previous-page" aria-label="前八条评论">↑</button><span id="scroll-progress">0 / 0</span><button id="next-page" aria-label="后八条评论">↓</button></div></div>
+              </section>
+            </div>
+            <footer class="decision-bar">
+              <div class="decision-copy"><strong id="decision-title">本次购买结果</strong><span id="decision-description" class="sr-only">选择结果后切换下一位访客，第六位完成后显示本轮总结。</span></div>
+              <div class="outcome-buttons"><button data-outcome="purchase" class="purchase-button" disabled><span aria-hidden="true">✓</span> 已支付</button><button data-outcome="abandon" disabled>未购买</button><button data-outcome="refund" disabled>购买后退款</button></div>
+            </footer>
+          </main>
+
+          <main id="summary-screen" class="summary-screen" aria-labelledby="summary-title" hidden>
+            <header class="summary-page-header"><span>体验记录</span><span class="completed-label">已完成</span></header>
+            <div class="summary-content">
+              <h1 id="summary-title" tabindex="-1">本轮结果</h1>
+              <p id="summary-subtitle" class="summary-subtitle">六位访客的选择与评论评分变化。</p>
+              <div id="summary-outcomes" class="summary-outcomes" aria-label="本轮选择结果"></div>
+              <h2 class="summary-section-title">阅读与结果</h2>
+              <div id="summary-highlights" class="summary-highlights"></div>
+              <p class="summary-report-hint">各访客的选择与评分明细见外侧研究台。</p>
+            </div>
+            <div class="summary-action"><p>新一轮将恢复初始评分，从第一位访客开始。</p><button id="restart-round" class="primary-button"><span>开始新一轮</span><span aria-hidden="true">→</span></button></div>
+          </main>
+          <div class="phone-homebar" aria-hidden="true"><span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <aside id="research-panel" class="research-panel" aria-label="研究面板" tabindex="-1">
+      <div class="research-heading"><h2>阅读研究台</h2><div class="research-heading-actions"><button id="stop-reading" class="stop-reading" title="结束并清空本轮体验，恢复第一位访客与初始评分" disabled><span aria-hidden="true">■</span>停止</button><button hidden id="close-research" aria-label="关闭研究面板">×</button></div></div>
+      <div class="round-progress" aria-label="本轮访客进度">
+        <div class="round-progress-heading"><strong id="round-progress-label">第 1 轮 · 已完成 0 / 6</strong><span class="round-size-label">访客进度</span></div>
+        <ol id="round-step-list" class="round-step-list" aria-label="六位访客"></ol>
+        <p id="round-strategy-label" class="round-strategy-label">开始前可调整本轮策略</p>
+      </div>
+      <div id="live-research" class="research-scroll">
+        <details class="setup-panel" id="research-setup">
+          <summary><span>位置权重设置</span><span id="selected-strategy-label">中下区域加权 <b>⌄</b></span></summary>
+          <div class="setup-body">
+            <p>首屏权重统一为 8；滑动后使用以下策略。首次进入评论后，本轮策略固定。</p>
+            <div class="strategy-options">
+              <label class="strategy-choice"><input type="radio" name="strategy" value="uniform"><span><strong>均匀权重</strong><small>所有位置均为 8</small></span><span class="choice-check"></span></label>
+              <label class="strategy-choice"><input type="radio" name="strategy" value="slide"><span><strong>随滑动位置加权</strong><small>从上到下依次为 1 至 8</small></span><span class="choice-check"></span></label>
+              <label class="strategy-choice"><input type="radio" name="strategy" value="center_lower" checked><span><strong>中下区域加权</strong><small>1 · 3 · 5 · 7 · 8 · 8 · 7 · 5</small></span><span class="choice-check"></span></label>
+            </div>
+          </div>
+        </details>
+        <section class="research-section">
+          <div class="section-line"><h3>阅读观测</h3><span id="recording-indicator" class="recording-indicator"><i></i><span>尚未开始</span></span></div>
+          <div class="metrics"><div><strong id="read-seconds">0.0<span>s</span></strong><span>可见时长（评论合计）</span></div><div><strong id="event-count">0</strong><span>已提交曝光段</span></div><div><strong id="visible-count">0</strong><span>当前可读评论</span></div></div>
+          <div class="episode-line"><span id="episode-status">未开始</span><span id="queue-status">本地待提交 0 段</span></div>
+        </section>
+        <section class="research-section">
+          <div class="section-line"><h3>位置权重</h3><span id="active-strategy" class="strategy-tag">中下区域加权</span></div>
+          <div class="viewport-model"><div class="viewport-scale"><span>上</span><span>中</span><span>下</span></div><div id="position-heatmap" class="position-heatmap" aria-label="滑动后位置权重示意"></div><div class="viewport-caption"><strong>滑动后的八个位置</strong><span>首屏统一权重 8</span><small>位置假设，不等于实际注意力。</small></div></div>
+          <details class="research-details"><summary>有效曝光怎样记录？ <span aria-hidden="true">＋</span></summary><p>前台可见比例至少 50%，连续可见至少 1 秒。每 250 毫秒本地采样，每 5 秒批量提交。手机客户端以八行摘要展示，查看全文时暂停原列表采集；全文弹层时间不计入列表归因。</p><p>累计时长是多条评论可见时间之和，不是页面停留时间。返回商品、后台、失焦、弹层遮挡或网络错误时暂停。</p></details>
+        </section>
+        <section class="research-section">
+          <div class="section-line"><h3>当前推荐评分</h3><span class="muted">前 8 条评论</span></div>
+          <div id="score-list" class="score-list"></div>
+          <details class="research-details scoring-details"><summary>评分与排序说明 <span aria-hidden="true">＋</span></summary><p class="score-note">评分由质量先验与有限的行为关联组成，不是购买概率，也不保证付款后某条评论置顶。</p><div class="policy-meta"><span id="policy-action">初始首位：—</span><span id="policy-probability">初始首位策略概率：—</span></div><p id="view-mode-note" class="control-note">当前：初始推荐排序 · 全部评论。</p></details>
+        </section>
+        <details class="research-details research-explanation"><summary>体验流程与数据说明 <span aria-hidden="true">＋</span></summary><p>每位访客选择结果后，更新弱关联评分并切换下一位。一轮共六位访客，完成后查看本轮总结；开始新一轮时恢复原始评分。</p><p>所有商品、评论和结果均为合成数据。点击停止会清空本轮阅读、结果与评分，恢复第一位访客和零进度；手机内的返回按钮只离开当前评论页，保留本轮进度。</p></details>
+      </div>
+      <div id="round-report" class="research-scroll round-report" hidden>
+        <section class="research-section"><div class="section-line"><h3>六位访客的选择</h3><span class="muted">本轮记录</span></div><div id="round-report-results" class="round-report-results"></div></section>
+        <section class="research-section"><div class="section-line"><h3>评论评分变化</h3><span class="muted">变化最多的前 5 条</span></div><p class="score-note">对比本轮开始与结束时的评分。</p><div id="round-report-scores" class="round-report-scores"></div><details class="research-details"><summary>结果说明 <span aria-hidden="true">＋</span></summary><p id="round-report-note" class="control-note">仅反映本轮合成行为的弱关联，不代表真实购买效果。</p></details></section>
+      </div>
+      <div class="research-mobile-navigation"><button id="return-to-client" class="return-to-client"><span aria-hidden="true">↑</span> 回到手机界面</button></div>
+    </aside>
+    <div id="research-backdrop" class="research-backdrop" hidden></div>
+  </div>
+  <p class="page-signature"><a href="https://github.com/Linkon990/jianwei-review-ranking/blob/main/docs/algorithm.md" target="_blank" rel="noopener noreferrer">算法说明</a><span aria-hidden="true"> · </span><a href="https://github.com/Linkon990/jianwei-review-ranking" target="_blank" rel="noopener noreferrer">GitHub</a><span aria-hidden="true"> · </span>Linkon</p>
+  <dialog id="content-dialog" class="content-dialog" aria-labelledby="content-dialog-title"><div class="dialog-heading"><div><span id="content-dialog-kicker" class="eyebrow"></span><h2 id="content-dialog-title">评论全文</h2></div><button id="close-content-dialog" aria-label="关闭详情">×</button></div><div id="content-dialog-body" class="content-dialog-body"></div></dialog>
+</body>
+</html>

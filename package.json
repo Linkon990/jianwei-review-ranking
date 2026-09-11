@@ -1,0 +1,14 @@
+{
+  "name": "jianwei-review-ranking",
+  "version": "0.7.0",
+  "private": true,
+  "description": "见微 · 商品评论排序实验",
+  "license": "MIT",
+  "author": "Linkon",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build_pages.mjs"
+  }
+}
