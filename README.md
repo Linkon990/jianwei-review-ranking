@@ -2,7 +2,7 @@
 
 把评论的可见位置、停留时间和后续选择接起来，观察它们如何改变下一位访客看到的排序。范围只在商品详情的评论区。
 
-[算法原理](docs/algorithm.md) · [运行与部署](docs/deployment.md)
+[在线体验](https://jianwei-review-ranking.pages.dev/) · [算法原理](docs/algorithm.md) · [运行与部署](docs/deployment.md)
 
 网页是一轮六位访客的交互演示：进入评论、滚动阅读、选择结果，再看评分怎样更新。商品和 72 条评论都是合成数据，结果由体验者选择，不发生真实交易。
 

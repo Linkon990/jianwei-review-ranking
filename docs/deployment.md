@@ -2,6 +2,8 @@
 
 公开站点使用 Cloudflare Pages 静态托管。计算在访问者的浏览器中完成，托管端只提供 HTML、CSS、JavaScript 和图标，不运行 Python，也不接收演示中的阅读或结果数据。
 
+在线地址：[jianwei-review-ranking.pages.dev](https://jianwei-review-ranking.pages.dev/)。项目已与 GitHub 的 `main` 分支连接，每次推送会自动重新构建和部署。
+
 ## Cloudflare Pages
 
 从 GitHub 导入本仓库，选择 Pages，配置如下：
